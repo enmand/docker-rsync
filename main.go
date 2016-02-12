@@ -25,6 +25,7 @@ func main() {
 	var version = flag.Bool("version", false, "Print version")
 	var watch = flag.Bool("watch", true, "Watch source directory for changes")
 	var verbose = flag.Bool("verbose", false, "Verbose output")
+	var installer = flag.String("installer", DEFAULT_INSTALLER, "rsync installation instructions")
 	var srcpath = flag.String("src", pwd, "Source directory")
 	var dstpath = flag.String("dst", pathpkg.Join("/rsync", pwd), "Destination directory")
 
@@ -81,7 +82,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		Provision(machineName, *verbose)
+		Provision(machineName, *verbose, *installer)
 		RunSSHCommand(machineName, "sudo mkdir -p "+rpathDir, *verbose)
 		fmt.Printf("Syncing %s (local) to %s (docker-machine %s)\n", *srcpath, *dstpath, machineName)
 		Sync(machineName, c, rpath, rpathDir, *verbose) // initial sync

@@ -13,10 +13,12 @@ type SSHCredentials struct {
 	SSHKeyPath string
 }
 
-func Provision(machineName string, verbose bool) {
+var DEFAULT_INSTALLER = "tce-load -wi rsync attr acl"
+
+func Provision(machineName string, verbose bool, installer string) {
 	c := []string{
 		// install and run rsync daemon
-		`tce-load -wi rsync attr acl`,
+		installer,
 
 		// disable boot2dockers builtin vboxfs
 		// TODO bad idea, because you then can't use vboxfs anymore
